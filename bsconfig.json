@@ -1,0 +1,10 @@
+{
+  "name": "bs-rebass",
+  "reason": {
+    "react-jsx": true
+  },
+  "bs-dependencies": [
+    "reason-react"
+  ],
+  "sources": "src"
+}
