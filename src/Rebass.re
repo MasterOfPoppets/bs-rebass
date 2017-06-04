@@ -112,11 +112,11 @@ module BoxShadow = {
 };
 
 module Breadcrumbs = {
-  type link = {children: string, href: string};
-  let makeLink link => {"children": link.children, "href": link.href};
+  type link = Js.t {. children : string, href : string};
+  /*let makeLink link => {"children": link.children, "href": link.href};*/
   external breadcrumbs : ReactRe.reactClass = "Breadcrumbs" [@@bs.module "rebass"];
   let createElement links::(links: list link) =>
-    wrapRebassPropsShamelessly breadcrumbs {"links": List.map makeLink links};
+    wrapRebassPropsShamelessly breadcrumbs {"links": links};
 };
 
 module Button = {

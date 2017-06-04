@@ -1,6 +1,6 @@
 {
   "name": "bs-rebass",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Bucklescript types for Rebass stateless functional components",
   "main": "index.js",
   "license": "MIT",
