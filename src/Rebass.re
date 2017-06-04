@@ -4,6 +4,19 @@ let optionMap fn option =>
   | None => None
   };
 
+let wrapRebassPropsShamelessly
+    reactClass
+    props
+    style::(style: option ReactDOMRe.style)=?
+    onClick::(onClick: option (ReactEventRe.Form.t => unit))=? =>
+  ReactRe.wrapPropsShamelessly
+    reactClass
+    (
+      Js.Obj.assign
+        {"style": Js.Null_undefined.from_opt style, "onClick": Js.Null_undefined.from_opt onClick}
+        props
+    );
+
 module Arrow = {
   type direction =
     | Up
@@ -14,15 +27,95 @@ module Arrow = {
     | Down => "down"
     };
   external arrow : ReactRe.reactClass = "Arrow" [@@bs.module "rebass"];
+  let createElement direction::(direction: option direction)=? =>
+    wrapRebassPropsShamelessly
+      arrow {"direction": Js.Null_undefined.from_opt (optionMap directionToRebass direction)};
+};
+
+module AspectRatio = {
+  external aspectRatio : ReactRe.reactClass = "AspectRatio" [@@bs.module "rebass"];
+  let createElement = wrapRebassPropsShamelessly aspectRatio (Js.Obj.empty ());
+};
+
+module Avatar = {
+  external avatar : ReactRe.reactClass = "Avatar" [@@bs.module "rebass"];
+  let createElement size::(size: option int)=? =>
+    wrapRebassPropsShamelessly avatar {"size": Js.Null_undefined.from_opt size};
+};
+
+module Badge = {
+  external badge : ReactRe.reactClass = "Badge" [@@bs.module "rebass"];
+  let createElement = wrapRebassPropsShamelessly badge (Js.Obj.empty ());
+};
+
+module Banner = {
+  type align =
+    | Left
+    | Center
+    | Right;
+  let alignToRebass align =>
+    switch align {
+    | Left => "left"
+    | Center => "center"
+    | Right => "right"
+    };
+  external banner : ReactRe.reactClass = "Banner" [@@bs.module "rebass"];
   let createElement
-      direction::(direction: option direction)=?
-      style::(style: option ReactDOMRe.style)=? =>
-    ReactRe.wrapPropsShamelessly
-      arrow
+      align::(align: option align)=?
+      backgroundImage::(backgroundImage: option string)=? =>
+    wrapRebassPropsShamelessly
+      banner
       {
-        "direction": Js.Null_undefined.from_opt (optionMap directionToRebass direction),
-        "style": Js.Null_undefined.from_opt style
+        "align": Js.Null_undefined.from_opt (optionMap alignToRebass align),
+        "backgroundImage": Js.Null_undefined.from_opt backgroundImage
       };
+};
+
+module Bar = {
+  external bar : ReactRe.reactClass = "Bar" [@@bs.module "rebass"];
+  let createElement = wrapRebassPropsShamelessly bar (Js.Obj.empty ());
+};
+
+module Block = {
+  external block : ReactRe.reactClass = "Block" [@@bs.module "rebass"];
+  let createElement
+      borderColor::(borderColor: option string)=?
+      border::(border: option bool)=?
+      borderTop::(borderTop: option bool)=?
+      borderRight::(borderRight: option bool)=?
+      borderBottom::(borderBottom: option bool)=?
+      borderLeft::(borderLeft: option bool)=? =>
+    wrapRebassPropsShamelessly
+      block
+      {
+        "borderColor": Js.Null_undefined.from_opt borderColor,
+        "border": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean border),
+        "borderTop": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean borderTop),
+        "borderRight": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean borderRight),
+        "borderBottom":
+          Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean borderBottom),
+        "borderLeft": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean borderLeft)
+      };
+};
+
+module Blockquote = {
+  external blockquote : ReactRe.reactClass = "Blockquote" [@@bs.module "rebass"];
+  let createElement source::(source: option string)=? href::(href: option string)=? =>
+    wrapRebassPropsShamelessly
+      blockquote
+      {"source": Js.Null_undefined.from_opt source, "href": Js.Null_undefined.from_opt href};
+};
+
+module BoxShadow = {
+  external boxShadow : ReactRe.reactClass = "BoxShadow" [@@bs.module "rebass"];
+  let createElement = wrapRebassPropsShamelessly boxShadow (Js.Obj.empty ());
+};
+
+module Breadcrumbs = {
+  type link = {children: string, href: string};
+  external breadcrumbs : ReactRe.reactClass = "Breadcrumbs" [@@bs.module "rebass"];
+  let createElement links::(links: list link) =>
+    wrapRebassPropsShamelessly breadcrumbs {"links": links};
 };
 
 module Button = {
@@ -32,26 +125,21 @@ module Button = {
       big::(big: option bool)=?
       size::(size: option int)=?
       circle::(circle: option bool)=?
-      ::baseRef=?
-      onClick::(onClick: option (ReactEventRe.Form.t => unit))=?
-      style::(style: option ReactDOMRe.style)=? =>
-    ReactRe.wrapPropsShamelessly
+      ::baseRef=? =>
+    wrapRebassPropsShamelessly
       button
       {
         "href": Js.Null_undefined.from_opt href,
         "big": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean big),
         "size": Js.Null_undefined.from_opt size,
         "circle": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean circle),
-        "baseRef": Js.Null_undefined.from_opt baseRef,
-        "onClick": Js.Null_undefined.from_opt onClick,
-        "style": Js.Null_undefined.from_opt style
+        "baseRef": Js.Null_undefined.from_opt baseRef
       };
 };
 
 module Dropdown = {
   external dropdown : ReactRe.reactClass = "Dropdown" [@@bs.module "rebass"];
-  let createElement style::(style: option ReactDOMRe.style)=? =>
-    ReactRe.wrapPropsShamelessly dropdown {"style": Js.Null_undefined.from_opt style};
+  let createElement = wrapRebassPropsShamelessly dropdown (Js.Obj.empty ());
 };
 
 module DropdownMenu = {
@@ -60,16 +148,14 @@ module DropdownMenu = {
       open_::(open_: option bool)=?
       right::(right: option bool)=?
       top::(top: option bool)=?
-      onDismiss::(onDismiss: option (ReactEventRe.Form.t => unit))=?
-      style::(style: option ReactDOMRe.style)=? =>
-    ReactRe.wrapPropsShamelessly
+      onDismiss::(onDismiss: option (ReactEventRe.Form.t => unit))=? =>
+    wrapRebassPropsShamelessly
       dropdownMenu
       {
         "open": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean open_),
         "right": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean right),
         "top": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean top),
-        "onDismiss": Js.Null_undefined.from_opt onDismiss,
-        "style": Js.Null_undefined.from_opt style
+        "onDismiss": Js.Null_undefined.from_opt onDismiss
       };
 };
 
@@ -114,33 +200,26 @@ module Heading = {
       level::(level: option level)=?
       size::(size: option size)=?
       alt::(alt: option bool)=?
-      center::(center: option bool)=?
-      style::(style: option ReactDOMRe.style)=? =>
-    ReactRe.wrapPropsShamelessly
+      center::(center: option bool)=? =>
+    wrapRebassPropsShamelessly
       heading
       {
         "big": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean big),
         "level": Js.Null_undefined.from_opt (optionMap levelToRebass level),
         "size": Js.Null_undefined.from_opt (optionMap sizeToRebass size),
         "alt": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean alt),
-        "center": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean center),
-        "style": Js.Null_undefined.from_opt style
+        "center": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean center)
       };
 };
 
 module NavItem = {
   external navItem : ReactRe.reactClass = "NavItem" [@@bs.module "rebass"];
-  let createElement
-      active::(active: option bool)=?
-      small::(small: option bool)=?
-      ::baseRef=?
-      style::(style: option ReactDOMRe.style)=? =>
-    ReactRe.wrapPropsShamelessly
+  let createElement active::(active: option bool)=? small::(small: option bool)=? ::baseRef=? =>
+    wrapRebassPropsShamelessly
       navItem
       {
         "active": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean active),
         "small": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean small),
-        "baseRef": Js.Null_undefined.from_opt baseRef,
-        "style": Js.Null_undefined.from_opt style
+        "baseRef": Js.Null_undefined.from_opt baseRef
       };
 };
