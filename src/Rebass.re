@@ -49,13 +49,13 @@ module Button = {
 };
 
 module Dropdown = {
-  external dropdown : ReactRe.reactClass = "Dropdown" [@@bs.module];
+  external dropdown : ReactRe.reactClass = "Dropdown" [@@bs.module "rebass"];
   let createElement style::(style: option ReactDOMRe.style)=? =>
     ReactRe.wrapPropsShamelessly dropdown {"style": Js.Null_undefined.from_opt style};
 };
 
 module DropdownMenu = {
-  external dropdownMenu : ReactRe.reactClass = "DropdownMenu" [@@bs.module];
+  external dropdownMenu : ReactRe.reactClass = "DropdownMenu" [@@bs.module "rebass"];
   let createElement
       open_::(open_: option bool)=?
       right::(right: option bool)=?
@@ -108,7 +108,7 @@ module Heading = {
     | Five => 5
     | Six => 6
     };
-  external heading : ReactRe.reactClass = "Heading" [@@bs.module];
+  external heading : ReactRe.reactClass = "Heading" [@@bs.module "rebass"];
   let createElement
       big::(big: option bool)=?
       level::(level: option level)=?
@@ -129,7 +129,7 @@ module Heading = {
 };
 
 module NavItem = {
-  external navItem : ReactRe.reactClass = "NavItem" [@@bs.module];
+  external navItem : ReactRe.reactClass = "NavItem" [@@bs.module "rebass"];
   let createElement
       active::(active: option bool)=?
       small::(small: option bool)=?
