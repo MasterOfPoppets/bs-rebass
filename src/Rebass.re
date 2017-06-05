@@ -1,19 +1,96 @@
+type size =
+  | Zero
+  | One
+  | Two
+  | Three
+  | Four;
+
+type theme =
+  | Primary
+  | Secondary
+  | Default
+  | Info
+  | Success
+  | Warning
+  | Error;
+
 let optionMap fn option =>
   switch option {
   | Some value => Some (fn value)
   | None => None
   };
 
+let sizeToRebass size =>
+  switch size {
+  | Zero => 0
+  | One => 1
+  | Two => 2
+  | Three => 3
+  | Four => 4
+  };
+
+let themeToRebass theme =>
+  switch theme {
+  | Primary => "primary"
+  | Secondary => "secondary"
+  | Default => "default"
+  | Info => "info"
+  | Success => "success"
+  | Warning => "warning"
+  | Error => "error"
+  };
+
 let wrapRebassPropsShamelessly
     reactClass
     props
+    className::(className: option string)=?
     style::(style: option ReactDOMRe.style)=?
+    m::(m: option size)=?
+    mt::(mt: option size)=?
+    mr::(mr: option size)=?
+    mb::(mb: option size)=?
+    ml::(ml: option size)=?
+    mx::(mx: option size)=?
+    my::(my: option size)=?
+    p::(p: option size)=?
+    pt::(pt: option size)=?
+    pr::(pr: option size)=?
+    pb::(pb: option size)=?
+    pl::(pl: option size)=?
+    px::(px: option size)=?
+    py::(py: option size)=?
+    color::(color: option string)=?
+    backgroundColor::(backgroundColor: option string)=?
+    theme::(theme: option theme)=?
+    inverted::(inverted: option bool)=?
     onClick::(onClick: option (ReactEventRe.Form.t => unit))=? =>
   ReactRe.wrapPropsShamelessly
     reactClass
     (
       Js.Obj.assign
-        {"style": Js.Null_undefined.from_opt style, "onClick": Js.Null_undefined.from_opt onClick}
+        {
+          "className": Js.Null_undefined.from_opt className,
+          "style": Js.Null_undefined.from_opt style,
+          "m": Js.Null_undefined.from_opt (optionMap sizeToRebass m),
+          "mt": Js.Null_undefined.from_opt (optionMap sizeToRebass mt),
+          "mr": Js.Null_undefined.from_opt (optionMap sizeToRebass mr),
+          "mb": Js.Null_undefined.from_opt (optionMap sizeToRebass mb),
+          "ml": Js.Null_undefined.from_opt (optionMap sizeToRebass ml),
+          "mx": Js.Null_undefined.from_opt (optionMap sizeToRebass mx),
+          "my": Js.Null_undefined.from_opt (optionMap sizeToRebass my),
+          "p": Js.Null_undefined.from_opt (optionMap sizeToRebass p),
+          "pt": Js.Null_undefined.from_opt (optionMap sizeToRebass pt),
+          "pr": Js.Null_undefined.from_opt (optionMap sizeToRebass pr),
+          "pb": Js.Null_undefined.from_opt (optionMap sizeToRebass pb),
+          "pl": Js.Null_undefined.from_opt (optionMap sizeToRebass pl),
+          "px": Js.Null_undefined.from_opt (optionMap sizeToRebass px),
+          "py": Js.Null_undefined.from_opt (optionMap sizeToRebass py),
+          "color": Js.Null_undefined.from_opt color,
+          "backgroundColor": Js.Null_undefined.from_opt backgroundColor,
+          "theme": Js.Null_undefined.from_opt (optionMap themeToRebass theme),
+          "inverted": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean inverted),
+          "onClick": Js.Null_undefined.from_opt onClick
+        }
         props
     );
 
@@ -125,16 +202,14 @@ module Button = {
       href::(href: option string)=?
       big::(big: option bool)=?
       size::(size: option int)=?
-      circle::(circle: option bool)=?
-      ::baseRef=? =>
+      circle::(circle: option bool)=? =>
     wrapRebassPropsShamelessly
       button
       {
         "href": Js.Null_undefined.from_opt href,
         "big": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean big),
         "size": Js.Null_undefined.from_opt size,
-        "circle": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean circle),
-        "baseRef": Js.Null_undefined.from_opt baseRef
+        "circle": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean circle)
       };
 };
 
@@ -144,7 +219,6 @@ module Checkbox = {
       label::(label: string)
       name::(name: string)
       stacked::(stacked: option bool)=?
-      ::baseRef=?
       checked::(checked: option bool)=?
       ::onChange=? =>
     wrapRebassPropsShamelessly
@@ -153,7 +227,6 @@ module Checkbox = {
         "label": label,
         "name": name,
         "stacked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean stacked),
-        "baseRef": Js.Null_undefined.from_opt baseRef,
         "checked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean checked),
         "onChange": Js.Null_undefined.from_opt onChange
       };
@@ -244,7 +317,6 @@ module Input = {
       hideLabel::(hideLabel: option bool)=?
       horizontal::(horizontal: option bool)=?
       autoOff::(autoOff: option bool)=?
-      ::baseRef=?
       value::(value: option string)=?
       ::onChange=? =>
     wrapRebassPropsShamelessly
@@ -257,7 +329,6 @@ module Input = {
         "hideLabel": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean hideLabel),
         "horizontal": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean horizontal),
         "autoOff": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean autoOff),
-        "baseRef": Js.Null_undefined.from_opt baseRef,
         "value": Js.Null_undefined.from_opt value,
         "onChange": Js.Null_undefined.from_opt onChange
       };
@@ -265,13 +336,12 @@ module Input = {
 
 module NavItem = {
   external navItem : ReactRe.reactClass = "NavItem" [@@bs.module "rebass"];
-  let createElement active::(active: option bool)=? small::(small: option bool)=? ::baseRef=? =>
+  let createElement active::(active: option bool)=? small::(small: option bool)=? =>
     wrapRebassPropsShamelessly
       navItem
       {
         "active": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean active),
-        "small": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean small),
-        "baseRef": Js.Null_undefined.from_opt baseRef
+        "small": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean small)
       };
 };
 
@@ -289,7 +359,6 @@ module Select = {
       message::(message: option string)=?
       hideLabel::(hideLabel: option bool)=?
       horizontal::(horizontal: option bool)=?
-      ::baseRef=?
       value::(value: option string)=?
       ::onChange=? =>
     wrapRebassPropsShamelessly
@@ -301,7 +370,6 @@ module Select = {
         "message": Js.Null_undefined.from_opt message,
         "hideLabel": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean hideLabel),
         "horizontal": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean horizontal),
-        "baseRef": Js.Null_undefined.from_opt baseRef,
         "value": Js.Null_undefined.from_opt value,
         "onChange": Js.Null_undefined.from_opt onChange
       };
