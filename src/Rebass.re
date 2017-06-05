@@ -138,6 +138,25 @@ module Button = {
       };
 };
 
+module Checkbox = {
+  external checkbox : ReactRe.reactClass = "Checkbox" [@@bs.module "rebass"];
+  let createElement
+      label::(label: string)
+      name::(name: string)
+      stacked::(stacked: option bool)=?
+      ::baseRef=?
+      checked::(checked: option bool)=? =>
+    wrapRebassPropsShamelessly
+      checkbox
+      {
+        "label": label,
+        "name": name,
+        "stacked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean stacked),
+        "baseRef": Js.Null_undefined.from_opt baseRef,
+        "checked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean checked)
+      };
+};
+
 module Dropdown = {
   external dropdown : ReactRe.reactClass = "Dropdown" [@@bs.module "rebass"];
   let createElement = wrapRebassPropsShamelessly dropdown (Js.Obj.empty ());
@@ -251,5 +270,37 @@ module NavItem = {
         "active": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean active),
         "small": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean small),
         "baseRef": Js.Null_undefined.from_opt baseRef
+      };
+};
+
+module Select = {
+  type selectOption = {children: string, value: string};
+  let makeSelectOption selectOption => {
+    "children": selectOption.children,
+    "value": selectOption.value
+  };
+  external select : ReactRe.reactClass = "Select" [@@bs.module "rebass"];
+  let createElement
+      label::(label: string)
+      name::(name: string)
+      options::(options: array selectOption)
+      message::(message: option string)=?
+      hideLabel::(hideLabel: option bool)=?
+      horizontal::(horizontal: option bool)=?
+      ::baseRef=?
+      value::(value: option string)=?
+      ::onChange=? =>
+    wrapRebassPropsShamelessly
+      select
+      {
+        "label": label,
+        "name": name,
+        "options": Array.map makeSelectOption options,
+        "message": Js.Null_undefined.from_opt message,
+        "hideLabel": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean hideLabel),
+        "horizontal": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean horizontal),
+        "baseRef": Js.Null_undefined.from_opt baseRef,
+        "value": Js.Null_undefined.from_opt value,
+        "onChange": Js.Null_undefined.from_opt onChange
       };
 };
