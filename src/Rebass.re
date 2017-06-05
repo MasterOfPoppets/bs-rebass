@@ -306,3 +306,10 @@ module Select = {
         "onChange": Js.Null_undefined.from_opt onChange
       };
 };
+
+module Text = {
+  external text : ReactRe.reactClass = "Text" [@@bs.module "rebass"];
+  let createElement small::(small: option bool)=? =>
+    wrapRebassPropsShamelessly
+      text {"small": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean small)};
+};
