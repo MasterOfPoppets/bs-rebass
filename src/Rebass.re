@@ -213,6 +213,35 @@ module Heading = {
       };
 };
 
+module Input = {
+  external input : ReactRe.reactClass = "Input" [@@bs.module "rebass"];
+  let createElement
+      label::(label: string)
+      name::(name: string)
+      type_::(type_: option string)=?
+      message::(message: option string)=?
+      hideLabel::(hideLabel: option bool)=?
+      horizontal::(horizontal: option bool)=?
+      autoOff::(autoOff: option bool)=?
+      ::baseRef=?
+      value::(value: option string)=?
+      ::onChange=? =>
+    wrapRebassPropsShamelessly
+      input
+      {
+        "label": label,
+        "name": name,
+        "type": Js.Null_undefined.from_opt type_,
+        "message": Js.Null_undefined.from_opt message,
+        "hideLabel": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean hideLabel),
+        "horizontal": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean horizontal),
+        "autoOff": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean autoOff),
+        "baseRef": Js.Null_undefined.from_opt baseRef,
+        "value": Js.Null_undefined.from_opt value,
+        "onChange": Js.Null_undefined.from_opt onChange
+      };
+};
+
 module NavItem = {
   external navItem : ReactRe.reactClass = "NavItem" [@@bs.module "rebass"];
   let createElement active::(active: option bool)=? small::(small: option bool)=? ::baseRef=? =>
