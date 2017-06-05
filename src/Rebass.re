@@ -145,7 +145,8 @@ module Checkbox = {
       name::(name: string)
       stacked::(stacked: option bool)=?
       ::baseRef=?
-      checked::(checked: option bool)=? =>
+      checked::(checked: option bool)=?
+      ::onChange=? =>
     wrapRebassPropsShamelessly
       checkbox
       {
@@ -153,7 +154,8 @@ module Checkbox = {
         "name": name,
         "stacked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean stacked),
         "baseRef": Js.Null_undefined.from_opt baseRef,
-        "checked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean checked)
+        "checked": Js.Null_undefined.from_opt (optionMap Js.Boolean.to_js_boolean checked),
+        "onChange": Js.Null_undefined.from_opt onChange
       };
 };
 
