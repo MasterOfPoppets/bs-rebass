@@ -1,8 +1,12 @@
 {
   "name": "bs-rebass",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Bucklescript types for Rebass stateless functional components",
-  "main": "index.js",
+  "repository": "https://github.com/MasterOfPoppets/bs-rebass",
+  "author": {
+    "name": "Gareth Hughes",
+    "url": "https://github.com/MasterOfPoppets"
+  },
   "license": "MIT",
   "devDependencies": {
     "bs-platform": "^1.7.4"
