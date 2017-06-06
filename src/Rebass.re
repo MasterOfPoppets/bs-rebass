@@ -232,6 +232,11 @@ module Checkbox = {
       };
 };
 
+module Container = {
+  external container : ReactRe.reactClass = "Container" [@@bs.module "rebass"];
+  let createElement = wrapRebassPropsShamelessly container (Js.Obj.empty ());
+};
+
 module Dropdown = {
   external dropdown : ReactRe.reactClass = "Dropdown" [@@bs.module "rebass"];
   let createElement = wrapRebassPropsShamelessly dropdown (Js.Obj.empty ());

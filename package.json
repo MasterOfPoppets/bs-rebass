@@ -1,6 +1,6 @@
 {
   "name": "bs-rebass",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Bucklescript types for Rebass stateless functional components",
   "repository": "https://github.com/MasterOfPoppets/bs-rebass",
   "author": {
